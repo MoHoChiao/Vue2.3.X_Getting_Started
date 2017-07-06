@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>component-natigationguards-router</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1>Basic Router</h1>
+        <!--使用內建組件router-link進行導航(Vue2.X版)-->
+        <router-link to="/home">Home</router-link>
+        <router-link to="/user/1">User1</router-link>
+        <router-link to="/user/2">User2</router-link>
+        <hr>
+        <div>
+            <router-view>
+                <!--所有被routing的組件內容都會在這裡渲染-->
+            </router-view>
+        </div>
+    </div>
+    <!--Home這個子組件的template內容-->
+    <script type="text/x-template" id="home">
+        <div>
+            <h1>Home</h1>
+            <p>{{msg}}</p>
+        </div>
+    </script>
+    <!--User這個子組件的template內容-->
+    <script type="text/x-template" id="user">
+        <div>
+            <h1>User</h1>
+            <p>{{msg}}</p>
+            <!--使用$route.params存取路由參數-->
+            <p>Your ID:{{ $route.params.id }}</p>
+        </div>
+    </script>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<!--使用引入JS檔的方式來引入Vue-Router.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.6.0/vue-router.min.js"></script>
+<script>
+//建立Home這個子組件
+var Home = Vue.extend({
+    template: '#home',
+    data: function() {
+        return {
+            msg: "Routing to 'Home' Component."
+        }
+    }
+})
+
+//建立User這個子組件
+var User = Vue.extend({
+    template: '#user',
+    data: function() {
+        return {
+            msg: "Routing to 'User' Component."
+        }
+    },
+    /*
+    	要切換至存取此組件的路徑之開始時調用
+    	不能獲取組件實體 `this`,因為當beforeRouteEnter執行前，組件實體還沒被創建
+    */
+    beforeRouteEnter(to, from, next) {
+        alert("Start => From Path[" + from.path + "] To Path[" + to.path + "]")
+        next()
+    },
+    /*
+    	在當前路由改變，但是該組件被復用時調用
+    	路徑 /user/:id，在 /user/1 和 /user/2 之間跳轉的時候，由於會引用同樣的User組件
+    	因此組件實體會被復用。而這個guards就會在這個情況下被調用
+    */
+    beforeRouteUpdate(to, from, next) {
+        alert("Finish => From Path[" + from.path + "] To Path[" + to.path + "]")
+        next()
+    },
+    /*
+    	導航離開該組件的對應路由時調用
+    	可以訪問組件實例 `this`
+    */
+    beforeRouteLeave(to, from, next) {
+        alert("Leave => From Path[" + from.path + "] To Path[" + to.path + "]")
+        next()
+    }
+})
+
+/* 
+    建立路由器 
+    建立路由路徑與組件之間的映射關係
+*/
+var router = new VueRouter({
+    routes: [{
+        path: '/home',
+        component: Home
+    }, {
+        path: '/user/:id',
+        component: User
+    }, {
+        path: '/',
+        redirect: '/home'
+    }]
+})
+
+new Vue({
+    el: '#app',
+    //啟動路由
+    router: router
+})
+</script>
+
+</html>

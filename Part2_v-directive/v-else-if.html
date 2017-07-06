@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>v-else-if</title>
+</head>
+
+<body>
+    <!--簡單的DOM元素(View)-->
+    <div id="app">
+        <h1>{{ score }}分</h1>
+        <div v-show="isShow">
+            <p v-if="score >= 7 && score <=10">Vue.js so easy</p>
+            <p v-else-if="score >= 3 && score <= 6">still learning Vue.js</p>
+            <p v-else-if="score >= 0 && score <= 2">Vue.js so hard</p>
+            <p v-else>score is illegal</p>
+        </div>
+        <p>你覺得vue.js簡單嗎？請輸入1~10分</p>
+        <input type="text" v-model="score">
+    </div>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<script>
+// 創建一个 Vue 實體或稱 "ViewModel"
+
+var vm = new Vue({
+    el: '#app',
+    data: {
+        isShow: true,
+        score: '0'
+    }
+});
+</script>
+
+</html>

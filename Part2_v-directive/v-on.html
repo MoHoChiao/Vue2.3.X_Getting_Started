@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>v-on</title>
+</head>
+
+<body>
+    <!--簡單的DOM元素(View)-->
+    <div id="app">
+        <!--把這個p元素和資料count單向綁定在一起-->
+        <p>{{ count }}</p>
+        <!--click事件直接绑定一个方法-->
+        <p>
+            <a href="javascripit:void(0)" v-on:click="add">add</a>
+        </p>
+        <!--click事件直接绑定一个方法-->
+        <p>
+            <button v-on:click="sub">sub</button>
+        </p>
+        <p>
+            <input type="number" v-on:keyup.enter="set('Come from input element!', $event)">
+        </p>
+    </div>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<script>
+// 創建一个 Vue 實體或稱 "ViewModel"
+var vm = new Vue({
+    //指定這個Vue實體(ViewModel)所要作用的View(DOM)之區域為id等於app的區域
+
+    el: '#app',
+    //指定這個Vue實體(ViewModel)所擁有的Model(JavaScript Object)
+    data: {
+        count: 0
+    },
+    //指定這個Vue實體(ViewModel)所擁有的Method(JavaScript function)
+    methods: {
+        //元素預設會傳送點擊的事件過來
+        add: function(event) {
+            alert(event.target.tagName)
+
+            //方法内 `this` 指向 vm
+            this.count++
+        },
+        //元素預設會傳送點擊的事件過來
+        sub: function(event) {
+            alert(event.target.tagName)
+
+            //方法内 `this` 指向 vm
+            this.count--
+        },
+        //元素傳送Alert的訊息以及點擊的事件過來
+        set: function(msg, event) {
+            alert(msg)
+
+            //方法内 `this` 指向 vm
+            this.count = event.target.value
+        }
+    }
+})
+</script>
+
+</html>

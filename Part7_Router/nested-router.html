@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>nested-router</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1>Nested Router</h1>
+        <!--使用內建組件router-link進行導航(Vue2.X版)-->
+        <router-link to="/user">User</router-link>
+        <!--使用內建組件router-link進行導航(Vue2.X版),此語法可加入tag元素,例如這裡是li-->
+        <router-link tag="li" to="/user/profile">
+            <a>UserProfile</a>
+        </router-link>
+        <router-link tag="li" to="/user/news">
+            <a>UserNews</a>
+        </router-link>
+        <hr>
+        <div>
+            <router-view>
+                <!--所有Vue實體底下的路由組件內容都會在這裡渲染-->
+            </router-view>
+        </div>
+    </div>
+    <!--User這個子組件的template內容-->
+    <script type="text/x-template" id="user">
+        <div>
+            <h1>User</h1>
+            <p>{{msg}}</p>
+            <hr>
+            <div>
+                <router-view>
+                    <!--所有User組件底下的子路由組件內容都會在這裡渲染-->
+                </router-view>
+            </div>
+        </div>
+    </script>
+    <!--UserProfile這個子組件的template內容-->
+    <script type="text/x-template" id="user-profile">
+        <div align="center">
+            <h1>User Profile</h1>
+            <p>{{msg}}</p>
+        </div>
+    </script>
+    <!--UserNews這個子組件的template內容-->
+    <script type="text/x-template" id="user-news">
+        <div align="center">
+            <h1>User News</h1>
+            <p>{{msg}}</p>
+        </div>
+    </script>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<!--使用引入JS檔的方式來引入Vue-Router.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.6.0/vue-router.min.js"></script>
+<script>
+//建立Home這個子組件
+var User = Vue.extend({
+    template: '#user',
+    data: function() {
+        return {
+            msg: "Routing to 'User' Component."
+        }
+    }
+})
+
+//建立UserProfile這個子組件
+var UserProfile = Vue.extend({
+    template: '#user-profile',
+    data: function() {
+        return {
+            msg: "Routing to 'UserProfile' Component."
+        }
+    }
+})
+
+//建立UserNews這個子組件
+var UserNews = Vue.extend({
+    template: '#user-news',
+    data: function() {
+        return {
+            msg: "Routing to 'UserNews' Component."
+        }
+    }
+})
+
+/* 
+    建立路由器 
+    建立路由路徑與組件之間的映射關係
+    children代表某路由底下的子路由
+*/
+var router = new VueRouter({
+    routes: [{
+        path: '/user',
+        component: User,
+        //宣告user底下的子路由
+        children: [{
+            path: 'profile', //路徑為/user/profile時,導向UserProfile組件
+            component: UserProfile
+        }, {
+            path: 'news', //路徑為/user/news時,導向UserProfile組件
+            component: UserNews
+        }, {
+            path: '', //若路徑為空(/user)時,預設為導向UserProfile組件
+            component: UserProfile
+        }]
+    }, {
+        path: '/', //若路徑為空(/)時,預設為導向User組件
+        redirect: '/user'
+    }]
+})
+
+new Vue({
+    el: '#app',
+    //啟動路由
+    router: router
+})
+</script>
+
+</html>

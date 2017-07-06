@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>private-natigationguards-router</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1>Basic Router</h1>
+        <!--使用內建組件router-link進行導航(Vue2.X版)-->
+        <router-link to="/home">Home</router-link>
+        <router-link to="/about">About</router-link>
+        <!--使用內建組件router-link進行導航(Vue2.X版),此語法可加入tag元素,例如這裡是li-->
+        <router-link tag="li" to="/home">
+            <a>Home</a>
+        </router-link>
+        <router-link tag="li" to="/about">
+            <a>About</a>
+        </router-link>
+        <hr>
+        <div>
+            <router-view>
+                <!--所有被routing的組件內容都會在這裡渲染-->
+            </router-view>
+        </div>
+    </div>
+    <!--Home這個子組件的template內容-->
+    <script type="text/x-template" id="home">
+        <div>
+            <h1>Home</h1>
+            <p>{{msg}}</p>
+        </div>
+    </script>
+    <!--About這個子組件的template內容-->
+    <script type="text/x-template" id="about">
+        <div>
+            <h1>About</h1>
+            <p>{{msg}}</p>
+        </div>
+    </script>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<!--使用引入JS檔的方式來引入Vue-Router.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.6.0/vue-router.min.js"></script>
+<script>
+//建立Home這個子組件
+var Home = Vue.extend({
+    template: '#home',
+    data: function() {
+        return {
+            msg: "Routing to 'Home' Component."
+        }
+    }
+})
+
+//建立About這個子組件
+var About = Vue.extend({
+    template: '#about',
+    data: function() {
+        return {
+            msg: "Routing to 'About' Component."
+        }
+    }
+})
+
+/* 
+    建立路由器 
+    建立路由路徑與組件之間的映射關係
+*/
+var router = new VueRouter({
+    routes: [{
+        path: '/home',
+        component: Home,
+        //只有在這個path範圍內(/home)的Navigation Guards, 要切換至此路徑的開始時調用
+        beforeEnter: (to, from, next) => {
+            alert("Start => From Path[" + from.path + "] To Path[" + to.path + "]")
+            next()
+        }
+    }, {
+        path: '/about',
+        component: About
+    }, {
+        path: '/',
+        redirect: '/home'
+    }]
+})
+
+new Vue({
+    el: '#app',
+    //啟動路由
+    router: router
+})
+</script>
+
+</html>

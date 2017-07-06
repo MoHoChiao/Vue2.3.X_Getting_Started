@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>$refs-component</title>
+</head>
+
+<body>
+    <!--簡單的DOM元素(View)-->
+    <div id="app">
+        <parent-component></parent-component>
+    </div>
+    <!--這裡是宣告<parent-component>這個組件的template內容,-->
+    <script type="text/x-template" id="parent-template">
+        <div>
+            <!--給予每個子組件一個唯一識別的ID,在自定義標籤(組件)中的ref是指組件實例,在一般html標籤中的ref是指dom元素-->
+            <child1-component ref="child1"></child1-component>
+            <child2-component ref="child2"></child2-component>
+            <button v-on:click="showChildComponentData">顯示子组件的數據</button>
+        </div>
+    </script>
+    <!--這裡是宣告<child1-component>這個組件的template內容,-->
+    <script type="text/x-template" id="child1-template">
+        <div>
+            <h2>This is child component 1</h2>
+        </div>
+    </script>
+    <!--這裡是宣告<child2-component>這個組件的template內容,-->
+    <script type="text/x-template" id="child2-template">
+        <div>
+            <h2>This is child component 2</h2>
+        </div>
+    </script>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<script>
+//創建且全域註冊parent組件
+Vue.component('parent-component', {
+    template: '#parent-template',
+    components: {
+        //創建且私域註冊child1組件給parent組件
+        'child1-component': {
+            template: '#child1-template',
+            data: function() {
+                return {
+                    msg: 'child component 111111'
+                }
+            }
+        },
+        //創建且私域註冊child2組件給parent組件
+        'child2-component': {
+            template: '#child2-template',
+            data: function() {
+                return {
+                    msg: 'child component 222222'
+                }
+            }
+        }
+    },
+    //parent組件的方法
+    methods: {
+        showChildComponentData: function() {
+            //this.$refs.id代表根據id來找該父組件下的子組件
+            alert(this.$refs.child1.msg);
+            alert(this.$refs.child2.msg);
+        }
+    }
+})
+
+new Vue({
+    el: '#app'
+})
+</script>
+
+</html>

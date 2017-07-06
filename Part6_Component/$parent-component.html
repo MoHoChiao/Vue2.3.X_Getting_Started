@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>$parent-component</title>
+</head>
+
+<body>
+    <!--簡單的DOM元素(View)-->
+    <div id="app">
+        <parent-component></parent-component>
+    </div>
+    <!--這裡是宣告<parent-component>這個組件的template內容,-->
+    <script type="text/x-template" id="parent-template">
+        <div>
+            <child-component></child-component>
+        </div>
+    </script>
+    <!--這裡是宣告<child-component>這個組件的template內容,-->
+    <script type="text/x-template" id="child-template">
+        <div>
+            <h2>This is a child component</h2>
+            <button v-on:click="showParentComponentData">顯示父组件的數據</button>
+        </div>
+    </script>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<script>
+//創建且全域註冊parent組件
+Vue.component('parent-component', {
+    template: '#parent-template',
+    components: {
+        //創建且私域註冊child組件給parent組件
+        'child-component': {
+            template: '#child-template',
+            //子組件的方法
+            methods: {
+                showParentComponentData: function() {
+                    //this.$parent指的是父組件實體
+                    alert(this.$parent.msg)
+                }
+            }
+        }
+    },
+    //parent組件的數據
+    data: function() {
+        return {
+            msg: 'parent component message'
+        }
+    }
+})
+
+new Vue({
+    el: '#app'
+})
+</script>
+
+</html>

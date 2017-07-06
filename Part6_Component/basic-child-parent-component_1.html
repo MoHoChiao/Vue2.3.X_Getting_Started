@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <div id="app">
+        <parent-component></parent-component>
+    </div>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<script>
+//創建一個Child組件
+var Child1 = Vue.extend({
+    template: '<p>This is a child1 component!</p>'
+})
+
+//創建一個Child組件
+var Child2 = Vue.extend({
+    template: '<p>This is a child2 component!</p>'
+})
+
+//創建一個Parent組件
+var Parent = Vue.extend({
+    /* 
+    	在Parent組件內使用<child-component>標籤
+    	特別注意的是在Vue2.0後,一個組件中的template只能有一個根節點,因此需要在最外層再包一層div元素,使其只有一個根節點
+    	若組件中的template有多個根節點,網頁雖然不會出錯,但永遠只有第一個根節點的內容被Vue.js作處理
+    */
+    template: '<div>' +
+        '<p>This is a parent component!</p>' +
+        '<child1-component></child1-component>' +
+        '<child2-component></child2-component>' +
+        '</div>',
+    components: {
+        //私域註冊兩個Child組件為此父組件的子組件,因為私域,所以該組件只能在Parent組件內使用
+        'child1-component': Child1,
+        'child2-component': Child2
+    }        
+})
+
+// 全域註冊Parent組件
+Vue.component('parent-component', Parent)
+
+// 創建一个 Vue 實體或稱 "ViewModel"
+new Vue({       
+    el: '#app'      
+})
+</script>
+
+</html>

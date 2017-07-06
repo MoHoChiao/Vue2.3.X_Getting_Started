@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <!--簡單的DOM元素(View)-->
+    <div id="app">
+        <!-- 3. #app是Vue實體所能作用的區域,組件一定要在Vue實體作用範圍內使用-->
+        <my-component></my-component>
+    </div>
+    <!--瀏覽器也不會出錯,但因為組件不在Vue實體所能作用的區域,所以這一行一點用處都沒有-->
+    <my-component></my-component>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<script>
+// 1.創建一個新的組件
+var myComponent = Vue.extend({
+    //宣告這個組件的內容(HTML,CSS,JavaScript),或稱模版(Template)
+    template: '<div>This is my first component!</div>'
+})
+
+// 2.註冊組件(全域註冊)，並指定組件的標籤，組件的HTML標籤為<my-component>
+Vue.component('my-component', myComponent)
+
+// 創建一个 Vue 實體或稱 "ViewModel"
+new Vue({
+    //指定這個Vue實體(ViewModel)所要作用的View(DOM)之區域為id等於app的區域
+    el: '#app'
+})
+</script>
+
+</html>

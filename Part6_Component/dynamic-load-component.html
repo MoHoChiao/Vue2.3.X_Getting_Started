@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>dynamic-load-component</title>
+</head>
+
+<body>
+    <!--簡單的DOM元素(View)-->
+    <div id="app">
+        <parent-component></parent-component>
+    </div>
+    <!--這裡是宣告<parent-component>這個組件的template內容,-->
+    <script type="text/x-template" id="parent-template">
+        <div>
+            <!--父組件利用保留標籤<component>以及綁定其is屬性,在同一個載入子組件的點動態地切換不同的子組件
+                其中currentComponent只是父組件的一個變數資料,裡面記錄的是子組件名稱-->
+            <component v-bind:is="currentComponent"></component>
+            <button v-on:click="changeComponent">切換成組件</button>
+        </div>
+    </script>
+    <!--這裡是宣告<child1-component>這個組件的template內容,-->
+    <script type="text/x-template" id="child1-template">
+        <div>
+            <h2>This is child component 1</h2>
+        </div>
+    </script>
+    <!--這裡是宣告<child2-component>這個組件的template內容,-->
+    <script type="text/x-template" id="child2-template">
+        <div>
+            <h2>This is child component 2</h2>
+        </div>
+    </script>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<script>
+//創建且全域註冊parent組件
+Vue.component('parent-component', {
+    template: '#parent-template',
+    //parent組件的數據
+    data: function() {
+        return {
+            //這個變數資料會負責存放component名稱,預設是顯示child1-component這個子組件
+            currentComponent: 'child1-component'
+        }
+    },
+    components: {
+        //創建且私域註冊child1組件給parent組件
+        'child1-component': {
+            template: '#child1-template'
+        },
+        //創建且私域註冊child2組件給parent組件
+        'child2-component': {
+            template: '#child2-template'
+        }
+    },
+    methods: {
+        /*
+            這個父組件的方法只是負責改變currentComponent變數資料的值而已,
+            主要是因為v-bind:is="currentComponent"這一句,
+            所以currentComponent值一但改變,就會根據component名稱來切換不同的組件
+        */
+        changeComponent: function() {
+            //this.$children代表訪問這個父組件下的所有子組件
+            if (this.currentComponent === 'child1-component') {
+                this.currentComponent = 'child2-component'
+            } else {
+                this.currentComponent = 'child1-component'
+            }
+        }
+    }
+})
+
+new Vue({
+    el: '#app'
+})
+</script>
+
+</html>

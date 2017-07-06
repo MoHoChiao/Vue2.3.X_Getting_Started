@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>data-component</title>
+</head>
+
+<body>
+    <!--組件<menu-section>為全域註冊,因此不論那個Vue實體所作用的區域皆可作用-->
+    <!--組件<description-section>為私域註冊在app1底下,因此只有在app1實體所作用的區域才可作用-->
+    <div id="app1">
+        {{ message1 }}
+        <menu-section></menu-section>
+        <description-section></description-section>
+    </div>
+    ---------------app1和ap2的分割线---------------
+    <div id="app2">
+        {{ message2 }}
+        <menu-section></menu-section>
+        <description-section></description-section>
+    </div>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<script>
+//創建且全域註冊一個名為menu-section的組件
+Vue.component('menu-section', {
+    //可以把template想像成一群HTML元素的集合
+    //在這個template中用到組件自己的data,即menuItems
+    template: '<ul><li v-for="item in menuItems">{{ item.text }}</li></ul>',
+    //組件的data必須是一個函數
+    data: function() {
+        return {
+            menuItems: [{
+                text: 'About me'
+            }, {
+                text: 'Articles'
+            }, {
+                text: 'contact'
+            }]
+        };
+    }
+});
+
+// 創建一个 Vue 實體或稱 "ViewModel"
+
+var app1 = new Vue({
+    //指定這個Vue實體(ViewModel)所要作用的View(DOM)之區域為id等於app1的區域
+    el: '#app1',
+    //指定這個Vue實體(ViewModel)所擁有的Model(JavaScript Object)
+    data: {
+        message1: 'This is APP 1'
+    },
+    //指定這個Vue實體(ViewModel)所擁有的組件之集合
+    components: {
+        //創建且私域註冊一個名為description-section的組件
+        'description-section': {
+            //可以把template想像成一群HTML元素的集合
+            //在這個template中用到組件自己的data,即text
+            template: '<p>{{ text }}</p>',
+            //組件的data必須是一個函數
+            data: function() {
+                return {
+                    text: 'This is description-section.'
+                }
+            }
+        }
+    }
+})
+
+// 創建一个 Vue 實體或稱 "ViewModel"
+var app2 = new Vue({
+    //指定這個Vue實體(ViewModel)所要作用的View(DOM)之區域為id等於app2的區域
+    el: '#app2',
+    //指定這個Vue實體(ViewModel)所擁有的Model(JavaScript Object)
+    data: {
+        message2: 'This is APP 2'
+    }
+})
+</script>
+
+</html>

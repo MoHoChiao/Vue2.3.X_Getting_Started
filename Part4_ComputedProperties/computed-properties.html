@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>computed-properties</title>
+</head>
+
+<body>
+    <!--簡單的DOM元素(View)-->
+    <div id="app">{{ computed_fullName }}</div>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<script>
+// 創建一个 Vue 實體或稱 "ViewModel"
+var vm = new Vue({
+    el: '#app',
+    data: {
+        firstName: 'Leo',
+        lastName: 'Liu',
+        fullName: 'Leo Liu'
+    },
+    //指定這個Vue實體(ViewModel)所要綁定的資料屬性以及資料屬性值改變後所要應對的方法
+    //應對的方法會自動傳入改變後的新資料屬性值
+    computed: {
+        //定義了一個計算屬性及其對應的getter方法,用來取值的getter方法是必要存在
+        computed_fullName: function() {
+            alert("fristName or lastName has been changed.")
+                //只要在getter方法中出現的資料屬性都會被自動綁定在這個計算屬性上
+                //例如firstName及lastName,只要它們其中任何一個的值改變,則計算屬性computed_fullName會立即執行且回傳值
+
+            return this.firstName + ' ' + this.lastName
+        }
+    }
+})
+</script>
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>event-component</title>
+</head>
+
+<body>
+    <div id="app">
+        <!--綁定total數據-->
+        <p>{{ total }}</p>
+        <!--建立一個<button-counter>組件,且由此父組件宣告監聽事件 - 即子組件的increment方法如果有丟出(觸發事件)就會呼叫父組件的incrementTotal-->
+        <button-counter v-on:increment="incrementTotal"></button-counter>
+        <!--建立一個<button-counter>組件,且由此父組件宣告監聽事件 - 即子組件的increment方法如果有丟出(觸發事件)就會呼叫父組件的incrementTotal-->
+        <button-counter v-on:increment="incrementTotal"></button-counter>
+    </div>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<script>
+Vue.component('button-counter', {
+    template: '<button v-on:click="increment">{{ counter }}</button>',
+    data: function() {
+        return {
+            counter: 0
+        }
+    },
+    methods: {
+        increment: function() {
+            this.counter += 1
+
+            //向外界丟出事件(觸發事件),事件有沒有人處理不要緊
+            this.$emit('increment')
+        }
+    }
+})
+var vm = new Vue({
+    el: '#app',
+    data: {
+        total: 0
+    },
+    methods: {
+        incrementTotal: function() {
+            this.total += 1
+        }
+    }
+})
+</script>
+
+</html>

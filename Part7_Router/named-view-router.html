@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>named-view-router</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1>Named Views</h1>
+        <ul>
+            <li>
+                <router-link to="/">/</router-link>
+            </li>
+            <li>
+                <router-link to="/other">/other</router-link>
+            </li>
+        </ul>
+        <router-view class="view one"></router-view>
+        <router-view class="view two" name="a"></router-view>
+        <router-view class="view three" name="b"></router-view>
+    </div>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<!--使用引入JS檔的方式來引入Vue-Router.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.6.0/vue-router.min.js"></script>
+<script>
+const Foo = {
+    template: '<div>foo</div>'
+}
+const Bar = {
+    template: '<div>bar</div>'
+}
+const Baz = {
+    template: '<div>baz</div>'
+}
+
+/* 
+    建立路由器 
+    建立路由路徑與組件之間的映射關係
+*/
+const router = new VueRouter({
+    routes: [{
+        path: '/',
+        // 單一一個路由可以定義很多個被命名的組件
+        // 這些被命名的組件必須和router-view裡的name對應
+        // 其中default表示對應的是沒有命名的router-view
+        components: {
+            default: Foo,
+            a: Bar,
+            b: Baz
+        }
+    }, {
+        path: '/other',
+        components: {
+            default: Baz,
+            a: Bar,
+            b: Foo
+        }
+    }]
+})
+
+new Vue({
+    router,
+    el: '#app'
+})
+</script>
+
+</html>

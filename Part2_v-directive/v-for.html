@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>v-for</title>
+</head>
+
+<body>
+    <!--簡單的DOM元素(View)-->
+    <div id="app">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>info</th>
+                    <th>Sex</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(person,index) in people">
+                    <td>{{ index + '. ' + person.name }}</td>
+                    <td>{{ person.info }}</td>
+                    <td>{{ person.sex }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<script>
+// 創建一个 Vue 實體或稱 "ViewModel"
+var vm = new Vue({
+    //指定這個Vue實體(ViewModel)所要作用的View(DOM)之區域為id等於app的區域
+    el: '#app',
+    //指定這個Vue實體(ViewModel)所擁有的Model(JavaScript Object)
+    data: {
+        people: [{
+            name: 'Leo',
+            info: '碼農',
+            sex: 'Male'
+        }, {
+            name: 'Troy',
+            info: '資深碼農',
+            sex: 'Male'
+        }, {
+            name: 'Michael',
+            info: '資深碼農',
+            sex: 'Male'
+        }, {
+            name: 'Linda',
+            info: '碼農管理者',
+            sex: 'FeMale'
+        }]
+    }
+})
+</script>
+
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>v-bind</title>
+</head>
+
+<body>
+    <!--簡單的DOM元素(View)-->
+    <form id="v-model-demo">
+        <!-- text -->
+        <p>
+            <input type="text" v-model="msg">
+        </p>
+        <!-- checkbox -->
+        <p>
+            <input type="checkbox" v-model="checked">click me
+        </p>
+        <!-- radio buttons -->
+        <p>
+            <input type="radio" name="picked" value="one" v-model="picked">one
+            <input type="radio" name="picked" value="two" v-model="picked">two
+        </p>
+        <!-- select -->
+        <p>
+            <select v-model="selected">
+                <option>one</option>
+                <option>two</option>
+            </select>
+        </p>
+        <!-- multiple select -->
+        <p>
+            <select v-model="multiSelect" multiple>
+                <option>one</option>
+                <option>two</option>
+                <option>three</option>
+            </select>
+        </p>
+        <p><pre>data: {{$data | json 2}}
+</pre></p>
+    </form>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<script>
+// 創建一个 Vue 實體或稱 "ViewModel"
+var vm = new Vue({
+    //指定這個Vue實體(ViewModel)所要作用的View(DOM)之區域為id等於v-model-demo的區域
+    el: '#v-model-demo',
+    //指定這個Vue實體(ViewModel)所擁有的Model(JavaScript Object)
+    data: {
+        msg: 'hi!',
+        checked: true,
+        picked: 'one',
+        selected: 'two',
+        multiSelect: ['one', 'three']
+    }
+})
+</script>
+
+</html>

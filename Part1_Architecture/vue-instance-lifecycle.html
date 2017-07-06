@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>vue-instance-lifecycle</title>
+</head>
+
+<body>
+    <!--簡單的DOM元素(View)-->
+    <div id="app"></div>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<script>
+// 創建一个 Vue 實體或稱 "ViewModel"
+var vm = new Vue({
+    //指定這個Vue實體(ViewModel)所要作用的View(DOM)之區域為id等於app的區域
+    el: '#app',
+    data: {
+        beforeCreate: 'before create.',
+        created: 'created.',
+        beforeMount: 'before mount.',
+        mounted: 'mounted.'
+    },
+    //Vue實體被建立之前
+    beforeCreate: function() {
+        // `this` 指向new出來的 vm 實體
+        alert(this.el + ' ' + this.beforeCreate) //Vue實體被建立之前,el及data全是undefined
+        console.log(this.el + ' ' + this.beforeCreate) //Vue實體被建立之前,el及data全是undefined
+    },
+    //Vue實體被建立之後,data已初始化
+    created: function() {
+        // `this` 指向new出來的 vm 實體
+        alert(this.el + ' ' + this.created) //Vue實體被建立之後,el未形成,data已初始化
+        console.log(this.el + ' ' + this.created) //Vue實體被建立之後,el未形成,data已初始化
+    },
+    //el已和dom元素綁定,且data已初始化
+    beforeMount: function() {
+        // `this` 指向new出來的 vm 實體
+        alert(this.$el + ' ' + this.beforeMount)
+        console.log(this.$el + ' ' + this.beforeMount)
+    },
+    //el已和dom元素綁定,且data已初始化
+    mounted: function() {
+        // `this` 指向new出來的 vm 實體
+        alert(this.$el + ' ' + this.mounted)
+        console.log(this.$el + ' ' + this.mounted)
+    }
+})
+</script>
+
+</html>

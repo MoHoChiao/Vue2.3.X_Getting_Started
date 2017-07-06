@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <div id="app">
+        <parent-component></parent-component>
+    </div>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<!--父組件的template內容,記得每一個組件的template只能有一個根元素-->
+<script type="text/x-template" id="parent-template">
+    <div>
+        <p>This is a parent component!</p>
+        <!--在Parent組件內使用<child1-component>標籤-->
+        <child1-component></child1-component>
+        <!--在Parent組件內使用<child2-component>標籤-->
+        <child2-component></child2-component>
+    </div>
+</script>
+<!--子組件1的template內容,記得每一個組件的template只能有一個根元素-->
+<script type="text/x-template" id="child1-template">
+    <p>This is a child1 component!</p>
+</script>
+<!--子組件2的template內容,記得每一個組件的template只能有一個根元素-->
+<script type="text/x-template" id="child2-template">
+    <p>This is a child2 component!</p>
+</script>
+<script>
+//創建一個Child組件
+var Child1 = Vue.extend({
+    template: '#child1-template'
+})
+
+//創建一個Child組件
+var Child2 = Vue.extend({
+    template: '#child2-template'
+})
+
+//創建一個Parent組件
+var Parent = Vue.extend({
+    template: '#parent-template',
+    components: {
+        //私域註冊兩個Child組件為此父組件的子組件,因為私域,所以該組件只能在Parent組件內使用
+        'child1-component': Child1,
+        'child2-component': Child2
+    }
+})
+
+// 全域註冊Parent組件
+Vue.component('parent-component', Parent)
+
+// 創建一个 Vue 實體或稱 "ViewModel"
+new Vue({
+    el: '#app'
+})
+</script>
+
+</html>

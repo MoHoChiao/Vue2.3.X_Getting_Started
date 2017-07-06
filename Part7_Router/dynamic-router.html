@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>dynamic-router</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1>Basic Router</h1>
+        <div>
+            <!--宣告兩個雙向綁定-->
+            <input type="text" v-model="user_name" placeholder="使用者名稱" />
+            <input type="text" v-model="user_id" placeholder="使用者識別號" />
+            <!--
+                使用內建組件router-link進行導航(Vue2.X版).
+                routing_path這個計算屬性單向綁定於路徑及參數.
+                只要輸入的name或id改變,立刻會使計算屬性重新執行,進而回傳新的路徑
+                按下送出使用者資料後,會以新的路徑來傳遞參數
+            -->
+            <router-link v-bind:to="routing_path">送出使用者資料</router-link>
+        </div>
+        <hr>
+        <div>
+            <router-view>
+                <!--所有被routing的組件內容都會在這裡渲染-->
+            </router-view>
+        </div>
+    </div>
+    <!--User這個子組件的template內容-->
+    <script type="text/x-template" id="user">
+        <div>
+            <h1>User</h1>
+            <p>{{msg}}</p>
+            <!--使用$route.params存取路由參數-->
+            <p>Your Name:{{ $route.params.username }}</p>
+            <p>Your ID:{{ $route.params.post_id }}</p>
+        </div>
+    </script>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.6.0/vue-router.min.js"></script>
+<script>
+//建立User這個子組件
+var User = Vue.extend({
+    template: '#user',
+    data: function() {
+        return {
+            msg: "Routing to 'User' Component."
+        }
+    },
+    watch: {
+        //監控$route,當路由參數發生變化時執行的函數
+        '$route': function(to, from) {
+            //from表示原本的路由參數(改變前),to表示現在最新的路由參數(改變後)
+            alert(from.params.post_id + " " + from.params.username + "==>" + to.params.post_id + " " + to.params.username)
+        }
+    }
+})
+
+/* 
+    建立路由器 
+    建立路由路徑與組件之間的映射關係
+*/
+var router = new VueRouter({
+    routes: [{
+        //這裡使用動態路由,參數以冒號開頭
+        path: '/user/name/:username/id/:post_id',
+        component: User
+    }, {
+        path: '/',
+        redirect: '/user'
+    }]
+})
+
+new Vue({
+    el: '#app',
+    //啟動路由
+    router: router,
+    data: {
+        user_name: 'Leo',
+        user_id: '00'
+    },
+    computed: {
+        //定義了一個計算屬性及其對應的getter方法,用來取值的getter方法是必要存在
+        routing_path: function() {
+            //只要在getter方法中出現的資料屬性都會被自動綁定在這個計算屬性上
+            //例如user_name及user_id,只要它們其中任何一個的值改變,則計算屬性routing_path會立即執行且回傳值
+            return '/user/name/' + this.user_name + '/id/' + this.user_id
+        }
+    }
+})
+</script>
+
+</html>

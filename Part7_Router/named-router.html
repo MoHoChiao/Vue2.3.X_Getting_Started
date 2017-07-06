@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Named-router</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1>Named Router</h1>
+        <!--使用內建組件router-link進行導航(Vue2.X版)-->
+        <!--給 router-link 的 to 屬性傳一個物件型式,只需要指定name就可以了,不用指明完整的路徑-->
+        <!--另外如果有動態路徑參數的話,要物件之中要定義params-->
+        <router-link :to="{ name: 'user', params: { id: 123 }}">User</router-link>
+        <hr>
+        <div>
+            <router-view>
+                <!--所有被routing的組件內容都會在這裡渲染-->
+            </router-view>
+        </div>
+    </div>
+    <!--User這個子組件的template內容-->
+    <script type="text/x-template" id="user">
+        <div>
+            <h1>User</h1>
+            <p>ID:{{ $route.params.id }}</p>
+        </div>
+    </script>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<!--使用引入JS檔的方式來引入Vue-Router.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.6.0/vue-router.min.js"></script>
+<script>
+//建立User這個子組件
+var User = Vue.extend({
+    template: '#user'
+})
+
+/* 
+    建立路由器 
+    建立路由路徑與組件之間的映射關係
+*/
+var router = new VueRouter({
+    routes: [{
+        //宣告此路徑的名稱
+        name: 'user',
+        //故意把路徑定義的比較複雜一點
+        path: '/home/customer/user/:id',
+        component: User
+    }]
+})
+
+new Vue({
+    el: '#app',
+    //啟動路由
+    router: router
+})
+</script>
+
+</html>

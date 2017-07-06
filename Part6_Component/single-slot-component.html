@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>single-slot-component</title>
+</head>
+
+<body>
+    <!--簡單的DOM元素(View)-->
+    <div id="app">
+        <my-component>
+            <!--在子組件的插槽中插入內容-->
+            <h1>Hello Vue.js!</h1>
+            <h1>Hello world!</h1>
+        </my-component>
+        ---------------有分發內容和無分發內容的分割线---------------
+        <my-component></my-component>
+    </div>
+    <!--這裡是宣告<child-component>這個組件的template內容,-->
+    <script type="text/x-template" id="child-template">
+        <div>
+            <h2>This is a component!</h2>
+            <!--在此模版中建立一個不具名的子組件插槽-->
+            <slot>如果其父組件没有分發的內容，则顯示這個slot中的内容</slot>
+            <p>Say something...</p>
+        </div>
+    </script>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<script>
+//創建且全域註冊此組件
+Vue.component('my-component', {
+    template: '#child-template'
+})
+
+new Vue({
+    el: '#app'
+})
+</script>
+
+</html>

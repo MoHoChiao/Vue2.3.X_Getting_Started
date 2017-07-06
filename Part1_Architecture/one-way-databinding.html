@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>one-way-databinding</title>
+</head>
+
+<body>
+    <!--簡單的DOM元素(View)-->
+    <div id="app">
+        <!--把JavaScript Object(Model)的message屬性綁定在<p>這個網頁元素上面-->
+        <!--在這裡為單向綁定, 也就是若Model變了View才改變, 反之不成立-->
+        <p>{{ message }}</p>
+    </div>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<script>
+// 簡單的JavaScript Object(Model)
+var exampleData = {
+    message: 'Hello World!'
+}
+
+// 創建一个 Vue 實體或稱 "ViewModel"
+// 它連接 View 与 Model之間的綁定, 此例為單向綁定
+var vm = new Vue({
+    //指定這個Vue實體(ViewModel)所要作用的View(DOM)之區域為id等於app的區域
+    el: '#app',
+    //指定這個Vue實體(ViewModel)所擁有的Model(JavaScript Object)
+    data: exampleData
+
+    //底下可能有更多的選項參數, 請見new Vue實例API文件
+})
+</script>
+
+</html>

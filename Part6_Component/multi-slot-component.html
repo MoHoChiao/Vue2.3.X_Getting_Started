@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>multi-slot-component</title>
+</head>
+
+<body>
+    <!--簡單的DOM元素(View)-->
+    <div id="app">
+        <app-layout>
+            <!--表示要把這個內容分發到子組件中,名為header的插槽-->
+            <h1 slot="header">這裡是標題列</h1>
+            <!--表示要把這個內容分發到子組件中,不具名的插槽,如果子組件中沒有不具名的插槽存在,則此段會被忽略-->
+            <p>主要内容的一個段落。</p>
+            <!--表示要把這個內容分發到子組件中,不具名的插槽,如果子組件中沒有不具名的插槽存在,則此段會被忽略-->
+            <p>另一個主要段落。</p>
+            <!--表示要把這個內容分發到子組件中,名為test的插槽,很明顯一定會找不到名為test之插槽,此段會被忽略-->
+            <p slot="test">最後一個主要段落。</p>
+            <!--表示要把這個內容分發到子組件中,名為footer的插槽-->
+            <h1 slot="footer">這裡是頁尾</h1>
+        </app-layout>
+    </div>
+    <!--這裡是宣告<app-layout>這個組件的template內容-->
+    <script type="text/x-template" id="app-template">
+        <div class="container">
+            <header>
+                <!--一個具名的插槽-->
+                <slot name="header"></slot>
+                <hr>
+            </header>
+            <main>
+                <!--一個不具名的插槽,作為找不到匹配名字的內容分發之預設插槽-->
+                <slot></slot>
+            </main>
+            <footer>
+                <!--一個具名的插槽-->
+                <hr>
+                <slot name="footer"></slot>
+            </footer>
+        </div>
+    </script>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<script>
+//創建且全域註冊組件
+Vue.component(
+    'app-layout', {
+        template: '#app-template'
+    }
+)
+
+new Vue({
+    el: '#app'
+})
+</script>
+
+</html>

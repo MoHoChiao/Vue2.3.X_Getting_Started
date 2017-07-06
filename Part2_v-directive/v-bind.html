@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>v-bind</title>
+    <!--簡單的CSS設定-->
+    <style>
+    .big {
+        color: blue;
+        background-color: white;
+    }
+    
+    .small {
+        color: lightblue;
+        background-color: black;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!--使用v-bind將這個div元素的style屬性和資料模型作綁定-->
+        <div v-bind:style="{ color: myColor, fontSize: myFontSize + 'px' }">123</div>
+        <!--使用v-bind將這個div元素的style屬性和資料模型作綁定-->
+        <div v-bind:style="myStyle">456</div>
+        <!--使用v-bind將所有產生出來的span元素之class屬性和資料模型作綁定-->
+        <span v-for="n in pageCount" v-bind:class="(n%2) === 0 ? 'big' : 'small'">{{ n }}</span>
+    </div>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<script>
+// 創建一个 Vue 實體或稱 "ViewModel"
+new Vue({
+    //指定這個Vue實體(ViewModel)所要作用的View(DOM)之區域為id等於app的區域
+    el: '#app',
+    //指定這個Vue實體(ViewModel)所擁有的Model(JavaScript Object)
+    data: {
+        myColor: 'red',
+        myFontSize: 30,
+        myStyle: {
+            color: 'green',
+            fontSize: '50px'
+        },
+        pageCount: 10,
+        activeNumber: 1
+    }
+});
+</script>
+
+</html>

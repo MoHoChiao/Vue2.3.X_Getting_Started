@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>register-component</title>
+</head>
+
+<body>
+    <!--<my-component1>是全域註冊的方式,所以不論在在app1及app2都可以作用-->
+    <!--<my-component2>是私域註冊在vm2的方式,所以只有在app2可以作用-->
+    <!--<my-component3>是私域註冊在vm2的方式,所以只有在app2可以作用-->
+    <div id="app1">
+        <my-component1></my-component1>
+        <my-component2></my-component2>
+        <my-component3></my-component3>
+    </div>
+    ---------------app1和ap2的分割线---------------
+    <div id="app2">
+        <my-component1></my-component1>
+        <my-component2></my-component2>
+        <my-component3></my-component3>
+    </div>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<script>
+//創建一個新的組件
+var myComponent = Vue.extend({
+    //宣告這個組件的內容(HTML,CSS,JavaScript),或稱模版(Template)
+    template: '<div>This is the first component!</div>'
+})
+
+//全域註冊my-component1,所有的Vue實體都可以使用此組件
+Vue.component('my-component1', myComponent)
+
+// 創建一个 Vue 實體或稱 "ViewModel"
+var vm1 = new Vue({
+    //指定這個Vue實體(ViewModel)所要作用的View(DOM)之區域為id等於app1的區域
+    el: '#app1'
+})
+
+// 創建一个 Vue 實體或稱 "ViewModel"
+var vm2 = new Vue({
+    //指定這個Vue實體(ViewModel)所要作用的View(DOM)之區域為id等於app2的區域
+    el: '#app2',
+    components: {
+        //私域註冊my-component2在vm2上,因此只有這個Vue實體所能作用的區域才可以使用此組件
+        'my-component2': {
+            template: '<div>This is the second component!</div>'
+        },
+        //私域註冊my-component3在vm2上,因此只有這個Vue實體所能作用的區域才可以使用此組件
+        'my-component3': {
+            template: '<div>This is the third component!</div>'
+        }
+    }
+})
+</script>
+
+</html>

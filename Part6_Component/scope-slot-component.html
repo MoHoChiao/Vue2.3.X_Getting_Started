@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>scope-slot-component</title>
+</head>
+
+<body>
+    <!--簡單的DOM元素(View)-->
+    <div id="app">
+        <parent-component></parent-component>
+    </div>
+    <!--這裡是宣告<parent-component>這個組件的template內容,-->
+    <script type="text/x-template" id="parent-template">
+        <div>
+            <child-component>
+                <!--用來塞入子組件的作用域插槽的模版,子組件所傳遞的值會由props所接收-->
+                <template scope="props">
+                    <p>hello from parent</p>
+                    <p>{{ props.text }}</p>
+                </template>
+            </child-component>
+        </div>
+    </script>
+    <!--這裡是宣告<child-component>這個組件的template內容,-->
+    <script type="text/x-template" id="child-template">
+        <div>
+            <!--定義一個作用域插槽,且指定其text屬性和值-->
+            <slot text="hello from child"></slot>
+        </div>
+    </script>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<script>
+//創建且全域註冊parent組件
+Vue.component('parent-component', {
+    template: '#parent-template',
+    components: {
+        //創建且私域註冊child組件給parent組件
+        'child-component': {
+            template: '#child-template',
+        }
+    }
+})
+
+new Vue({
+    el: '#app'
+})
+</script>
+
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>watch</title>
+</head>
+
+<body>
+    <!--簡單的DOM元素(View)-->
+    <div id="app">{{ fullName }}</div>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<script>
+// 創建一个 Vue 實體或稱 "ViewModel"
+var vm = new Vue({
+    el: '#app',
+    data: {
+        firstName: 'Leo',
+        lastName: 'Liu',
+        fullName: 'Leo Liu'
+    },
+    //指定這個Vue實體(ViewModel)所要監看的資料屬性以及資料屬性值改變後所要應對的方法
+    //應對的方法會自動傳入改變後的新資料屬性值
+    watch: {
+        firstName: function(newValue) {
+            alert("first name change to " + newValue)
+            this.fullName = newValue + ' ' + this.lastName
+        },
+        lastName: function(newValue) {
+            alert("last name change to " + newValue)
+            this.fullName = this.firstName + ' ' + newValue
+        }
+    }
+})
+</script>
+
+</html>

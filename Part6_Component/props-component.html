@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>props-component</title>
+</head>
+
+<body>
+    <div id="app">
+        <!--在引用<child-component>這個組件時,給它傳遞兩個參數過去-->
+        <child-component type="child" props-message="message from props"></child-component>
+    </div>
+    <!--這裡是宣告<child-component>這個組件的template內容,-->
+    <script type="text/x-template" id="child-template">
+        <div>
+            <!--顯示從組件本身data來的message資料-->
+            <p>{{ dataMessage }}</p>
+            <!--顯示組件所接收到的外部message及type之資料-->
+            <p>{{ propsMessage }}</p>
+            <p>{{ type }}</p>
+        </div>
+    </script>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<script>
+//創建一個新的組件
+var myComponent = Vue.extend({
+    //宣告兩個props,它們作為外界可以傳遞資料進來的對外介面(接口)
+    props: ['type', 'propsMessage'],
+    //組件的data必須是一個函數,表示此組件自己的內部狀態
+    data: function() {
+        return {
+            dataMessage: 'message from data'
+        };
+    },
+    /*
+    	可以把template想像成一群HTML元素的集合
+    	在這個template中用到組件自己的data,即menuItems
+    */
+    template: '#child-template'
+})
+
+//全域註冊一個名為child-component的組件
+Vue.component('child-component', myComponent)
+
+// 創建一个 Vue 實體或稱 "ViewModel"
+var app = new Vue({
+    //指定這個Vue實體(ViewModel)所要作用的View(DOM)之區域為id等於app的區域
+    el: '#app'
+})
+</script>
+
+</html>
