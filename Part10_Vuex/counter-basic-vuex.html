@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>counter-basic-Vuex</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{ computed_count }}</p>
+        <p>
+            <button @click="increment">+</button>
+            <button @click="decrement">-</button>
+        </p>
+    </div>
+</body>
+<!--使用引入JS檔的方式來引入Vue.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<!--使用引入JS檔的方式來引入Vuex.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/2.3.1/vuex.min.js"></script>
+<script>
+//宣告一個全域的狀態管理容器(Store)
+const store = new Vuex.Store({
+    //宣告所要管理的state值,這裡只有count
+    state: {
+        count: 0
+    },
+    //mutations用來接收actions的commit告知,並且改變state值,也只有它可以改變state值
+    mutations: {
+        increment(state) {
+            state.count++
+        },
+        decrement(state) {
+            state.count--
+        }
+        /*
+            上面可能直接這樣寫
+            increment: state => state.count++,
+            decrement: state => state.count--
+        */
+    }
+})
+
+new Vue({
+    el: '#app',
+    //宣告一個計算屬性computed_count,只要state.count被mutations改變,則computed_count值也會改變
+    computed: {
+        computed_count: function() {
+            return store.state.count
+        }
+    },
+    methods: {
+        increment() {
+            //透過commit呼叫對應的mutations,即increment(state)
+            store.commit('increment')
+        },
+        decrement() {
+            //透過commit呼叫對應的mutations,即decrement(state)
+            store.commit('decrement')
+        }
+    }
+})
+</script>
+
+</html>
