@@ -8,6 +8,15 @@
 # install dependencies
 npm install
 
+# install Vuex
+npm install vuex --save
+
+# install ES7
+npm install babel-preset-stage-3 --save--dev
+
+# add stage-3(ES7) to .babelrc檔案
+"stage-3"
+
 # serve with hot reload at localhost:8080
 npm run dev
 

@@ -284,7 +284,7 @@ new Vue({
 
 ![image alt text](../README_PIC/image_29.png)
 
-然後你必需在.babelrc檔中多加入**’stage-3’**如下：
+然後你必需在**Counter這個Vue專案目錄中的.babelrc檔**中多加入**’stage-3’**如下：
 
 ![image alt text](../README_PIC/image_30.png)
 
@@ -702,7 +702,27 @@ export const MULTIPLY = 'MULTIPLY';
 export const DEVIDE = 'DEVIDE';
 export const RESET = 'RESET';
 ```
-### 10.5.5 結論
+### 10.5.5 App.vue
+
+最後，只要把App.vue當中的組件換成computer.vue組件即可，***[App.vue](./SimpleComputer/src/App.vue)***的檔案內容如下：
+```
+<template>
+    <div id="app">
+        <computer></computer>
+    </div>
+</template>
+<script>
+import Computer from './page/computer.vue'
+
+export default {
+    name: 'app',
+    components: {
+        'computer': Computer
+    }
+}
+</script>
+```
+### 10.5.6 結論
 
 這一章節，我們對Vuex.store的各項模組之使用上更靈活，尤其一個重要的觀念是actions.js裡的函式只能接受一個value參數，因此你必須把多個要傳送的參數組合成一個Object型式，然後再傳送給actions.js。另外，在第一個參數 { commit }, 我們使用 ES6 解構 直接提取 commit 出來使用。
 
